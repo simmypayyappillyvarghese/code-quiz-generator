@@ -3,7 +3,10 @@
     padding: 0;
     box-sizing: border-box;
 }
+body{
 
+    font-family:Roboto,Arial, Helvetica, sans-serif;
+}
 .quiz-header{
     padding: 3% 5%;
     display: flex;
@@ -34,6 +37,30 @@
     display: none;
 }
 
+/*Styling for the quiz-section*/
+
 .show-section{
-    display: block;
+    display: block; 
+    margin: 1% ;
+    padding: 5%;
+    
+}
+.show-section ol{
+    padding-top: 2%;
+}
+
+.show-section ol > li{
+
+   margin: 1%;
+   padding: 3%;
+   border-radius: 100px;
+   background-color: antiquewhite;
+   list-style-position: inside;
+   
+}
+
+/**/
+.show-section ol > li:hover{
+
+   
 }

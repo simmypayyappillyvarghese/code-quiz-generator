@@ -18,7 +18,10 @@ var questionsArray=[
 ];
 
 var timerCounter=timeSpanElement.innerHTML;
+var timerVariable;
 
+var feedBackSection=document.querySelector('.feedback-section');
+var feedBackText=document.querySelector('#feedback-heading');
 
 /*This function will hide the Quiz Intro and start button */
 function hideQuizIntro(){
@@ -47,6 +50,7 @@ function createQuiz(){
 function displayQuizSection(){
 
 quizSection.classList.remove('hide-section');
+quizSection.classList.add('show-section');
 
 }
 
@@ -74,13 +78,45 @@ function startTimer(){
 */
 
 function startQuiz(){
-
     hideQuizIntro();
     displayQuizSection();
     createQuiz();
     startTimer();
 }
 
+function displayFeedBack(result){
+
+ feedBackSection.classList.remove('.hide-section');
+if(result==="correct"){
+ feedBackText.innerHTML="You are Correct !!";
+}
+else{
+    feedBackText.innerHTML="You are Wrong !!";
+}
+}
+
+/*Function will verify if the selected element is a list item 
+and compare its value with answer and call displayFeedback 
+to display feedback */
+
+function checkAnswer(event){
+
+    if(event.target.matches("li") ){
+        var selectedAnswer=event.target.textContent;
+        if(selectedAnswer===questionsArray.correctAnswer){
+            displayFeedBack('correct');
+        }
+        else{
+            displayFeedBack('wrong');
+        }
+        
+    }
+    return
+    }
+
 
 /*Event Listener for click event on Start Quiz button */
 startButton.addEventListener('click',startQuiz);
+
+/*Event Listener for click event on answer list*/
+answerChoices.addEventListener('click',checkAnswer);
