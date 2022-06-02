@@ -10,7 +10,7 @@
     justify-content: space-between;
     align-items: center;
 }
-main .quiz-section{
+.quiz-intro-section{
 
     margin:3% auto;
     padding: 1%;
@@ -22,7 +22,18 @@ main .quiz-section{
     width:60%;
 }
 
-.quiz-section > *{
+.quiz-intro-section > *{
     margin: 1%;
     padding: 1%;
 } 
+
+/*Style class to hide and show the sections*/
+
+.hide-section{
+
+    display: none;
+}
+
+.show-section{
+    display: block;
+}
