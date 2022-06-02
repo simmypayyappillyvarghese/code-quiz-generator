@@ -29,7 +29,13 @@
             <h4 id="feedback-heading"></h4>
         </section>
         <section class="game-over-section hide-section">
-            <h2>Quiz Over !!!</h2>
+            <h2>All Done !!</h2>
+            <h3>Your final score <span id="score-span"></span></h3>
+            <form action="./highscore.html" method="post">
+                <label for="initial-textbox">Enter Initial :</label>
+                <input type="text" id="initial-textbox" name="initial" value="0">
+                <button>Submit</button>
+            </form>
         </section>
     </main>
     <script src="./assets/js/script.js"></script>

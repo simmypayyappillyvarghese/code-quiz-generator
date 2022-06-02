@@ -9,7 +9,18 @@ var questionPara = document.querySelector("#question-para");
 var answerChoices = document.querySelector("#answer-choice-list");
 
 var timeSpanElement = document.querySelector("#time-span");
+
+var timerCounter = timeSpanElement.innerHTML;
+
+
+var feedBackSection = document.querySelector(".feedback-section");
+var feedBackText = document.querySelector("#feedback-heading");
+
+var gameOverSection=document.querySelector(".game-over-section");
+
 var index=0;
+var timerVariable;
+var finalScore;
 
 var questionsArray = [
   {
@@ -39,153 +50,198 @@ var questionsArray = [
   },
 ];
 
-var timerCounter = timeSpanElement.innerHTML;
-var timerVariable;
-var finalScore;
-
-var feedBackSection = document.querySelector(".feedback-section");
-var feedBackText = document.querySelector("#feedback-heading");
-
-
-var gameOverSection=document.querySelector(".game-over-section");
 
 
 
 
-/*This function will hide the Quiz Intro and start button */
+
+
+/*This function will hide the Quiz Intro Section and start button */
+
 function hideQuizIntro() {
-  quizIntroSection.classList.add("hide-section");
-}
+    quizIntroSection.classList.add("hide-section");
+  }
 
-/* Function will update the paragraph element with the question,
-    create list item for each choices  and update textContent with the values
+
+ /*
+ This function will display the hidden placeholder section for the question and answer choices
+ */
+
+  function displayQuizSection() {
+    quizSection.classList.remove("hide-section");
+    quizSection.classList.add("show-section");
+  }  
+
+
+
+/* 
+
+Function will create list element for answer choices and update the paragraph element with the question
+and append to the existing ul element
+
 */
 
 function createQuiz() {  
      
+      //Set the para with the question from the array
+      questionPara.innerHTML = questionsArray[index].title;
+    
+      //Loop through the answer choices to create li items and append to the ul
+      questionsArray[index].choices.forEach(function (element, index, array) {
+        let liItem = document.createElement("li");
+        liItem.textContent = element;
+        answerChoices.append(liItem);
+      });
 
-console.log("Inside create quiz"+index);
-  questionPara.innerHTML = questionsArray[index].title;
+      //Increment the index to pick the next element from question answers array
 
-  questionsArray[index].choices.forEach(function (element, index, array) {
-    let liItem = document.createElement("li");
-    liItem.textContent = element;
-    answerChoices.append(liItem);
-  });
-  index++;
-  
-  }
-  
+      index++;
+      
+      }
 
 
-function displayQuizSection() {
-  quizSection.classList.remove("hide-section");
-  quizSection.classList.add("show-section");
-}
-
-/*Start the timer and update the display */
+/*
+Timer function to track the count down timer which will run for 30s 
+*/
 
 function startTimer() {
 
-   
-  var timerVariable = setInterval(function () {
-    if (timerCounter <= 0) {
-      clearInterval(timerVariable);
-      return;
-    }
+    var timerVariable = setInterval(function () {
 
-    timerCounter--;
-    timeSpanElement.innerHTML = timerCounter;
-    console.log(timerCounter);
+    //  If the timer reach 0 or all the question are displayed(quiz is over)
+    //clear the timer and return
 
-  }, 1000);
-}
+      if (timerCounter <= 0 || index>=5) {
+        clearInterval(timerVariable);
 
-/*Function below will call functions for
+        //Reset the list items and feedback text even if user doesnt click any answer after starting the quiz
+        //and runs out of time
+        resetListItems();
+
+        displayGameOver();
+        return;
+      }
+      --timerCounter;
+      timeSpanElement.innerHTML = timerCounter;
+  
+    },1000);
+
+  }
+
+
+/*
+Start Quiz Function below will call functions for
 -hiding the intro section,
--display the question-answers section and start time 
--create question-choices list
--start timer
+-display the question-answer choices section 
+--create question-choices list
+-Start timer 
 */
 
 function startQuiz() {
 
-  hideQuizIntro();
-  displayQuizSection();
-  createQuiz();
-  startTimer();
+    startTimer();
+    hideQuizIntro();
+    displayQuizSection();
+    createQuiz();
 
-}
-/*Display Game over function */
+    
+
+  }
+
+/*Begins the Quiz by clicking the Start Quiz Button */
+startButton.addEventListener("click", startQuiz);
+
+
+
+
+
+/*
+Function will hide all other sectiona dn display the game over section 
+with message and option for the user to enter the initial and submit the score
+*/
 
 function displayGameOver(){
+
     feedBackSection.classList.add('hide-section');
     gameOverSection.classList.remove('hide-section');
     gameOverSection.classList.add('show-section');
-    console.log("display game over");
 }
 
 
 /*This will display the feedback section with the message based on the result */
-/*If the answer is wrong,time will get reduced by 5sec */
+/*If the answer is wrong,user's time will get reduced by 5sec */
 
 function displayFeedBack(result) {
-  feedBackSection.classList.remove("hide-section");
 
-  if (result === "correct") {
-    feedBackText.innerHTML = "You are Correct !!";
-  } 
-  else {
-   
-    feedBackText.innerHTML = "You are Wrong !!";   
-   if(timerCounter>=5){
-       timerCounter-=5;
-    }  
-   else{timerCounter=0; }
-  }
+    //This will display the hidden feedback section
+    feedBackSection.classList.remove("hide-section");
   
-  return;
-}
+    if (result === "correct") {
+      feedBackText.innerHTML = "You are Correct !!";
+    } 
+    else {
+     
+      feedBackText.innerHTML = "You are Wrong !!";  
 
-/*Function will verify if the selected element is a list item 
-and compare its value with answer and call displayFeedback 
-to display feedback */
+      //This is to ensure than timer doesnt go negative 
+     if(timerCounter>=5){
+         timerCounter-=5;
+      }  
+  
+  }
+  return;
+    }
+  
+    /*Reset the list items*/
+  function resetListItems(){
+
+    answerChoices.innerHTML="";    
+    questionPara.innerHTML="";
+    feedBackText.innerHTML="";
+
+  }
+
+
+
+/*
+Function will verify if the selected element is a list item and its not last element in array
+If then compare its value with answer and call displayFeedback for correct choice
+Else display feedback for wrong choice.
+
+Also Reset the list items and paragraph values for the new question-answer choices
+
+If Index is less than 5 ,go to the next question-Invoke createQuiz
+Else game over function is invoked.
+*/
 
 function checkAnswer(event) {
 
-  if (event.target.matches("li") && index<5) {
-    var selectedAnswer = event.target.textContent;
-    
-    if (selectedAnswer === questionsArray[index].correctAnswer) {
-      displayFeedBack("correct");
 
-    } else {
-      displayFeedBack("wrong");
-    }
-}
-    //To iterqate through array,resetting values 
-    console.log("Index"+index);
+    //Resetting the values for new set of question and answers
+    resetListItems();
 
-    answerChoices.innerHTML="";    
-      questionPara.innerHTML="";
-      feedBackText.innerHTML="";
-    // index++;
-    if(index<5){
-      createQuiz();
-    }
-    else{
-        timerCounter=0;
-        timeSpanElement.innerHTML=0;
-        displayGameOver();
-        console.log("Inside else");
-    }
-    
+    if (event.target.matches("li") && index<5) {
+      var selectedAnswer = event.target.textContent;
+      
+      if (selectedAnswer === questionsArray[index].correctAnswer) {
+        displayFeedBack("correct");
   
-  return;
+      } else {
+        displayFeedBack("wrong");
+      }
+    }
 
-}
-/*Event Listener for click event on Start Quiz button */
-startButton.addEventListener("click", startQuiz);
+    //If not the last list item ,Navigate to the next set of question and choices
+      if(index<5){
+        createQuiz();
+      }
+      else{
+          displayGameOver();
+      }
+    return;
+  
+  }
+  
 
-/*Event Listener for click event on answer list*/
+/*Event Listener added for click on list item and invoke checkAnswer function*/
 answerChoices.addEventListener("click", checkAnswer);
