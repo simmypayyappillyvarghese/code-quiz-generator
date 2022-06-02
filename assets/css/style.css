@@ -41,7 +41,7 @@ body{
 
 .show-section{
     display: block; 
-    margin: 1% ;
+    margin: 1% auto;
     padding: 5%;
     
 }
@@ -59,8 +59,17 @@ body{
    
 }
 
-/**/
+/*To DO:Style the list*/
 .show-section ol > li:hover{
 
    
+}
+
+/*TO DO: STyle feedback section*/
+
+/**/
+
+.game-over-section h2{
+
+    text-align: center;
 }
