@@ -24,6 +24,9 @@ var initialInput=document.querySelector('#initial-textbox');
 var index=0;
 var timerVariable;
 var scoreArray=[];
+var localStorageCopy=localStorage.getItem('scores');
+
+
 
 
 var questionsArray = [
@@ -53,14 +56,6 @@ var questionsArray = [
     correctAnswer: "//This is a comment",
   },
 ];
-
-
-/*High Score File */
- var otherDoc=document.querySelector('link[rel="import"]');
- console.log(otherDoc);
-// // console.log(parent);
-//  var initialElement=otherDoc.querySelector("#initial");
-//  var scoreElement=otherDoc.querySelector("#score");
 
 
 
@@ -255,31 +250,30 @@ function checkAnswer(event) {
 answerChoices.addEventListener("click", checkAnswer);
 
 //Local storage should have an object of {score :[{SV,10},{AB,11},{CV,20}]
-//
+//For every round play the users only recent /last played score will be displayed
+
 function displayScore(event){
 
-  
+  //Saves the previous score records from local storage and assign it to array
+  //Verify if local storage is null if then set array as [] else fetch all array elements from local storage
+
+  var arrayCopy=JSON.parse(localStorage.getItem('scores'));
+  scoreArray=arrayCopy===null?[]:arrayCopy;
 
     var initialScoreObj={};
-
-
     var initial=initialInput.value;
     var score=timeSpanElement.innerHTML;
-
+   
     initialScoreObj[initial]=score;
+    
     
     scoreArray.push(initialScoreObj);
 
      localStorage.setItem("scores",JSON.stringify(scoreArray));
  
-
    
 }
 
 /*Event Listener for Submit button,when user enter score and click submit displayScore is invoked */
 
 scoreForm.addEventListener('submit',displayScore);
-
-
-
-/*To do link functionality,go back button,clear functionality */
