@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Score Summary</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body class="highscore">
+        <main class="score-section">
+            <h2>HighScores</h2>
+            <ol id="initial" class="score-list"></ol>
+            <div class="button-div">
+                <button id="back-button">Go Back</button>
+                <button id="clear-button">Clear HighScores</button>
+            </div>
+        </main>
+        <script>
+
+            var clearBtn=document.querySelector('#clear-button');
+            var backBtn=document.querySelector('#back-button')
+
+            var scoreArray=JSON.parse(localStorage.getItem('scores'));
+            var ulElement=document.querySelector("#initial");
+
+         
+            for(var i=0;i<scoreArray.length;i++){
+
+                
+                for(var [key,value] of Object.entries(scoreArray[i])){
+
+                    var listItem=document.createElement('li');
+                    listItem.innerHTML=key+" - "+value;
+                    ulElement.append(listItem);
+                }
+            }
+
+            //Function will set the href/URL to index file,hence navigating user to the game Intro
+
+            function backToGameIntro(){
+
+                window.location.href="./index.html";
+            }
+
+            /*Event Listener on Go Back button will navigate use to the game intro -index file*/
+
+            backBtn.addEventListener('click',backToGameIntro);
+
+
+            //Function will clear the local storage and set the list as empty
+            function clearScore(){
+
+                localStorage.clear();
+                ulElement.innerHTML="";
+
+            }
+
+            /*Event Listener on Clear Score button will clear the score saved in local storage and display blank list*/
+            clearBtn.addEventListener('click',clearScore);
+
+
+            
+        </script>
+</body>
+</html>

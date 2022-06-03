@@ -17,10 +17,14 @@ var feedBackSection = document.querySelector(".feedback-section");
 var feedBackText = document.querySelector("#feedback-heading");
 
 var gameOverSection=document.querySelector(".game-over-section");
+var submitBtn=document.querySelector("#score-submit-btn");
+var scoreForm=document.querySelector('#score-form');
+var initialInput=document.querySelector('#initial-textbox');
 
 var index=0;
 var timerVariable;
-var finalScore;
+var scoreArray=[];
+
 
 var questionsArray = [
   {
@@ -51,8 +55,12 @@ var questionsArray = [
 ];
 
 
-
-
+/*High Score File */
+ var otherDoc=document.querySelector('link[rel="import"]');
+ console.log(otherDoc);
+// // console.log(parent);
+//  var initialElement=otherDoc.querySelector("#initial");
+//  var scoreElement=otherDoc.querySelector("#score");
 
 
 
@@ -245,3 +253,33 @@ function checkAnswer(event) {
 
 /*Event Listener added for click on list item and invoke checkAnswer function*/
 answerChoices.addEventListener("click", checkAnswer);
+
+//Local storage should have an object of {score :[{SV,10},{AB,11},{CV,20}]
+//
+function displayScore(event){
+
+  
+
+    var initialScoreObj={};
+
+
+    var initial=initialInput.value;
+    var score=timeSpanElement.innerHTML;
+
+    initialScoreObj[initial]=score;
+    
+    scoreArray.push(initialScoreObj);
+
+     localStorage.setItem("scores",JSON.stringify(scoreArray));
+ 
+
+   
+}
+
+/*Event Listener for Submit button,when user enter score and click submit displayScore is invoked */
+
+scoreForm.addEventListener('submit',displayScore);
+
+
+
+/*To do link functionality,go back button,clear functionality */
