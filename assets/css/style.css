@@ -3,16 +3,50 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+:root{
+
+    --tan:#f5e1d5;
+    --teal:#71a8a7;
+    --light-teal:#d5f5f5;
+    --brown:#a88f82;
+}
 body{
 
     font-family:Roboto,Arial, Helvetica, sans-serif;
+    background-color: var(--tan);
+    padding-top: 2%;
+    font-size: 18px;
+
 }
+
+/*Styling Quiz Header Section*/
+
+
+#highscore-link a{
+    color: #000;
+    font-weight: 600;
+    padding: 10px;
+    text-decoration: none;
+    background-color:var(--teal) ;
+    border-radius: 100px;
+
+}
+
 .quiz-header{
     padding: 3% 5%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
+
+.quiz-header  h2{
+
+   color:var(--teal);
+}
+
+/*Styling Quiz Introduction Section*/
+
 .quiz-intro-section{
 
     margin:3% auto;
@@ -37,6 +71,21 @@ body{
     display: none;
 }
 
+/* Style for buttons*/
+#clear-button,#back-button,.quiz-intro-section button,#score-submit-btn{
+
+    background-color:var(--teal);
+    outline: none;
+    border: none;
+    border-radius: 100px;
+    margin-right: 2%;
+    padding: 1% 5%;
+    cursor: pointer;
+}
+
+
+
+
 /*Styling for the quiz-section*/
 
 .show-section{
@@ -51,47 +100,43 @@ body{
 
 .show-section ol > li{
 
-   margin: 1%;
-   padding: 3%;
+   margin: 2%;
+   padding: 2%;
    border-radius: 100px;
-   background-color: antiquewhite;
+   background-color: var(--teal);
+   opacity: 0.9;
    list-style-position: inside;
+   cursor: pointer;
    
 }
 
-/*To DO:Style the list*/
-.show-section ol > li:hover{
+/*Style for Feedback Section */
 
-   
+#feedback-heading{
+
+    color:#888;
+    padding: 1% 2%;
 }
 
-/*TO DO: STyle feedback section*/
+/*Style for Game Over Section*/
 
-/**/
+.game-over-section{
+    width: 80%;
+    margin-top: 0;
+    padding-top: 2%;
+}
 
-.game-over-section h2{
 
-    text-align: center;
+.game-over-section  > *{
+    padding-bottom: 2%;
 }
 
 /*Highscore Page Styling*/
 
 .highscore{
 
-    background-color: #d5f5f5;
+    background-color:var(--light-teal);
     
-}
-
-/*Generic Style for button*/
-button{
-
-    background-color:#71a8a7;
-    outline: none;
-    border: none;
-    border-radius: 100px;
-    margin-right: 2%;
-    padding: 1% 5%;
-    cursor: pointer;
 }
 
 
@@ -110,7 +155,6 @@ button{
     }
 
 
-
 .score-section ol{
 
     list-style-position: inside;
@@ -123,7 +167,7 @@ button{
 }
 
 .score-section ol >li:hover{
-    background-color:#71a8a7;
+    background-color:var(--teal);
  
  }
 

@@ -4,12 +4,10 @@ var startButton = document.querySelector("#start-button");
 var quizIntroSection = document.querySelector(".quiz-intro-section");
 var quizIntroHeading =document.querySelector(".quiz-intro");
 var quizSection = document.querySelector(".quiz-section");
-
 var questionPara = document.querySelector("#question-para");
 var answerChoices = document.querySelector("#answer-choice-list");
 
 var timeSpanElement = document.querySelector("#time-span");
-
 var timerCounter = timeSpanElement.innerHTML;
 
 
@@ -17,9 +15,10 @@ var feedBackSection = document.querySelector(".feedback-section");
 var feedBackText = document.querySelector("#feedback-heading");
 
 var gameOverSection=document.querySelector(".game-over-section");
+
+var initialInput=document.querySelector('#initial-textbox');
 var submitBtn=document.querySelector("#score-submit-btn");
 var scoreForm=document.querySelector('#score-form');
-var initialInput=document.querySelector('#initial-textbox');
 
 var index=0;
 var timerVariable;
@@ -27,8 +26,7 @@ var scoreArray=[];
 var localStorageCopy=localStorage.getItem('scores');
 
 
-
-
+/*Array Holding the Questions */
 var questionsArray = [
   {
     title: "Inside which HTML element do we put the JavaScript?",
@@ -36,22 +34,22 @@ var questionsArray = [
     correctAnswer: "<script>",
   },
   {
-    title: "What is the correct syntax for referring to an external script called xxx.js?",
+    title: "What is the correct syntax for referring to an external script called xxx.js ?",
     choices: ["<script name='xxx.js'>", "<script href='xxx.js'>", "<script src='xxx.js'>"],
     correctAnswer: "<script src='xxx.js'>",
   },
   {
-    title: "The external JavaScript file must contain the <script> tag?",
+    title: "The external JavaScript file must contain the script tag ?",
     choices: ["False", "True"],
     correctAnswer: "False",
   },
   {
-    title: "How do you create a function in JavaScript?",
+    title: "How do you create a function in JavaScript ?",
     choices: ["function=myFunction()", "function myFunction()", "function.myFunction()"],
     correctAnswer: "function myFunction()",
   },
   {
-    title: "How can you add a comment in a JavaScript?",
+    title: "How can you add a comment in a JavaScript ?",
     choices: ["<!--This is a comment-->", "'This is a comment'", "//This is a comment"],
     correctAnswer: "//This is a comment",
   },
@@ -85,8 +83,8 @@ and append to the existing ul element
 */
 
 function createQuiz() {  
-     
-      //Set the para with the question from the array
+   
+     //Set the para with the question from the array
       questionPara.innerHTML = questionsArray[index].title;
     
       //Loop through the answer choices to create li items and append to the ul
@@ -96,10 +94,7 @@ function createQuiz() {
         answerChoices.append(liItem);
       });
 
-      //Increment the index to pick the next element from question answers array
-
-      index++;
-      
+     
       }
 
 
@@ -114,7 +109,7 @@ function startTimer() {
     //  If the timer reach 0 or all the question are displayed(quiz is over)
     //clear the timer and return
 
-      if (timerCounter <= 0 || index>=5) {
+      if (timerCounter <= 0 || index>5) {
         clearInterval(timerVariable);
 
         //Reset the list items and feedback text even if user doesnt click any answer after starting the quiz
@@ -124,8 +119,8 @@ function startTimer() {
         displayGameOver();
         return;
       }
-      --timerCounter;
-      timeSpanElement.innerHTML = timerCounter;
+      // --timerCounter;
+      timeSpanElement.innerHTML = --timerCounter;
   
     },1000);
 
@@ -147,8 +142,6 @@ function startQuiz() {
     displayQuizSection();
     createQuiz();
 
-    
-
   }
 
 /*Begins the Quiz by clicking the Start Quiz Button */
@@ -159,13 +152,14 @@ startButton.addEventListener("click", startQuiz);
 
 
 /*
-Function will hide all other sectiona dn display the game over section 
+Function will hide quiz sections and display the game over section 
 with message and option for the user to enter the initial and submit the score
 */
 
 function displayGameOver(){
 
-    feedBackSection.classList.add('hide-section');
+    quizSection.classList.remove('show-section')
+    quizSection.classList.add('hide-section')
     gameOverSection.classList.remove('hide-section');
     gameOverSection.classList.add('show-section');
 }
@@ -178,21 +172,21 @@ function displayFeedBack(result) {
 
     //This will display the hidden feedback section
     feedBackSection.classList.remove("hide-section");
-  
+
     if (result === "correct") {
-      feedBackText.innerHTML = "You are Correct !!";
+      feedBackText.innerHTML = " Correct !!";
     } 
     else {
      
-      feedBackText.innerHTML = "You are Wrong !!";  
+      feedBackText.innerHTML = " Wrong !!";  
 
       //This is to ensure than timer doesnt go negative 
-     if(timerCounter>=5){
-         timerCounter-=5;
+     if(timerCounter>=10){
+         timerCounter-=10;
       }  
   
   }
-  return;
+  
     }
   
     /*Reset the list items*/
@@ -219,35 +213,43 @@ Else game over function is invoked.
 
 function checkAnswer(event) {
 
-
-    //Resetting the values for new set of question and answers
-    resetListItems();
+   //Resetting the values for new set of question and answers
+   resetListItems();
 
     if (event.target.matches("li") && index<5) {
       var selectedAnswer = event.target.textContent;
       
       if (selectedAnswer === questionsArray[index].correctAnswer) {
         displayFeedBack("correct");
+        
   
       } else {
         displayFeedBack("wrong");
       }
+      //Increment the index to pick the next element from question answers array
+
+      index++;
     }
+
+    
 
     //If not the last list item ,Navigate to the next set of question and choices
       if(index<5){
+        
         createQuiz();
       }
       else{
           displayGameOver();
       }
-    return;
+
   
   }
   
 
 /*Event Listener added for click on list item and invoke checkAnswer function*/
 answerChoices.addEventListener("click", checkAnswer);
+
+
 
 //Local storage should have an object of {score :[{SV,10},{AB,11},{CV,20}]
 //For every round play the users only recent /last played score will be displayed
@@ -260,7 +262,7 @@ function displayScore(event){
   var arrayCopy=JSON.parse(localStorage.getItem('scores'));
   scoreArray=arrayCopy===null?[]:arrayCopy;
 
-    var initialScoreObj={};
+    var initialScoreObj={}; 
     var initial=initialInput.value;
     var score=timeSpanElement.innerHTML;
    
@@ -277,3 +279,11 @@ function displayScore(event){
 /*Event Listener for Submit button,when user enter score and click submit displayScore is invoked */
 
 scoreForm.addEventListener('submit',displayScore);
+
+
+/*Feedback text will be hidden/removed when the quiz is over and user focus on the input text box */
+
+initialInput.addEventListener('focus',function(){
+
+  feedBackSection.classList.add("hide-section");
+});
