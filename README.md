@@ -60,6 +60,10 @@ Below is the Quiz Section with answer choices
 
 !['Quiz section snapshot'](./assets/quiz-section.png)
 
+Below is the Feedback Section with answer choices
+
+!['Quiz section snapshot'](./assets/feedback_section.png)
+
 Below is the Quiz Over Final Page
 
 !['Quiz section snapshot'](./assets/quiz_over.png)

@@ -22,18 +22,18 @@ var scoreForm = document.querySelector("#score-form");
 var index = 0;
 var timerVariable;
 var scoreArray = [];
-var localStorageCopy = localStorage.getItem("scores");
+
 
 /*Array Holding the Questions */
 var questionsArray = [
   {
-    title: "Inside which HTML element do we put the JavaScript?",
+    title: "1. Inside which HTML element do we put the JavaScript?",
     choices: ["<javascript>", "<script>", "<scripting>", "<js>"],
     correctAnswer: "<script>",
   },
   {
     title:
-      "What is the correct syntax for referring to an external script called xxx.js ?",
+      "2. What is the correct syntax for referring to an external script called xxx.js ?",
     choices: [
       "<script name='xxx.js'>",
       "<script href='xxx.js'>",
@@ -42,12 +42,12 @@ var questionsArray = [
     correctAnswer: "<script src='xxx.js'>",
   },
   {
-    title: "The external JavaScript file must contain the script tag ?",
+    title: "3. The external JavaScript file must contain the script tag ?",
     choices: ["False", "True"],
     correctAnswer: "False",
   },
   {
-    title: "How do you create a function in JavaScript ?",
+    title: "4. How do you create a function in JavaScript ?",
     choices: [
       "function=myFunction()",
       "function myFunction()",
@@ -56,7 +56,7 @@ var questionsArray = [
     correctAnswer: "function myFunction()",
   },
   {
-    title: "How can you add a comment in a JavaScript ?",
+    title: "5. How can you add a comment in a JavaScript ?",
     choices: [
       "<!--This is a comment-->",
       "'This is a comment'",
