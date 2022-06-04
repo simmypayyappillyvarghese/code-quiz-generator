@@ -19,6 +19,8 @@ var initialInput = document.querySelector("#initial-textbox");
 var submitBtn = document.querySelector("#score-submit-btn");
 var scoreForm = document.querySelector("#score-form");
 
+var errorAudioEl=document.getElementById("error-audio");
+
 var index = 0;
 var timerVariable;
 var scoreArray = [];
@@ -201,6 +203,10 @@ function checkAnswer(event) {
     if (selectedAnswer === questionsArray[index].correctAnswer) {
       displayFeedBack("correct");
     } else {
+
+      //This will play the wrong answer audio,when user selects wrong choice
+
+      errorAudioEl.play();
       displayFeedBack("wrong");
     }
     //Increment the index to pick the next element from question answers array
@@ -258,3 +264,4 @@ scoreForm.addEventListener("submit", displayScore);
 initialInput.addEventListener("focus", function () {
   feedBackSection.classList.add("hide-section");
 });
+
