@@ -44,6 +44,10 @@ GIVEN I am taking a code quiz
 ## Links
 
 
+Github Repository link : https://github.com/simmypayyappillyvarghese/coding-quiz-challenge
+
+Live Link: https://simmypayyappillyvarghese.github.io/coding-quiz-challenge/
+
 
 ## Technologies Used
 * [x] HTML5
